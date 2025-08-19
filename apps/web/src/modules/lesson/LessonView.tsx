@@ -17,15 +17,16 @@ export const LessonView: React.FC = () => {
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [code, setCode] = useState('');
   const [html, setHtml] = useState('');
-  const { token } = useAuth();
+  const { token, ensureFreshToken } = useAuth();
   const API = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
   const persist = useCallback(async (lessonId: string, status: string, lastCode?: string) => {
     if(!token) return;
     try {
-      await axios.post(`${API}/progress`, { lessonId, status, lastCode }, { headers: { Authorization: `Bearer ${token}` } });
+      const fresh = await ensureFreshToken();
+      await axios.post(`${API}/progress`, { lessonId, status, lastCode }, { headers: { Authorization: `Bearer ${fresh || token}` } });
     } catch {}
-  }, [token, API]);
+  }, [token, API, ensureFreshToken]);
 
   const debouncedSave = useCallback(debounce((lessonId: string, val: string) => {
     persist(lessonId, 'IN_PROGRESS', val);
