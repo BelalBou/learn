@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String        @id @default(cuid())
+  email      String        @unique
+  password   String
+  displayName String
+  createdAt  DateTime      @default(now())
+  progress   Progress[]
+}
+
+model Course {
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  title       String
+  description String?
+  sections    Section[]
+  createdAt   DateTime    @default(now())
+}
+
+model Section {
+  id        String   @id @default(cuid())
+  title     String
+  course    Course   @relation(fields: [courseId], references: [id])
+  courseId  String
+  position  Int
+  lessons   Lesson[]
+}
+
+model Lesson {
+  id            String    @id @default(cuid())
+  title         String
+  content       String
+  exampleCode   String?
+  exerciseStarter String?
+  solutionCode  String?
+  language      String?   // ts, js, py
+  section       Section   @relation(fields: [sectionId], references: [id])
+  sectionId     String
+  position      Int
+  progress      Progress[]
+}
+
+model Progress {
+  user        User   @relation(fields: [userId], references: [id])
+  userId      String
+  lesson      Lesson @relation(fields: [lessonId], references: [id])
+  lessonId    String
+  status      ProgressStatus @default(NOT_STARTED)
+  lastCode    String?
+  updatedAt   DateTime @updatedAt
+
+  @@id([userId, lessonId])
+}
+
+enum ProgressStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}

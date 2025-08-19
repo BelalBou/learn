@@ -1,0 +1,26 @@
+{
+  "name": "learn-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm -ws run build",
+    "dev": "concurrently -n api,web -c blue,green \"npm run api:dev\" \"npm run web:dev\"",
+    "api:dev": "npm --workspace @learn/api run start:dev",
+    "web:dev": "npm --workspace @learn/web run dev",
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .ts,.tsx",
+    "prisma": "npm --workspace @learn/api run prisma",
+    "migrate": "npm --workspace @learn/api run migrate",
+    "seed": "npm --workspace @learn/api run seed"
+  },
+  "devDependencies": {
+    "@types/lodash.debounce": "^4.0.9",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5"
+  }
+}

@@ -1,0 +1,6 @@
+/* Layout specific styles */
+.layout-root { display:flex; min-height:100vh; }
+.layout-main { flex:1; padding:1rem 1.5rem 4rem; }
+@media (max-width:800px){
+  .layout-main { padding-top:3.5rem; }
+}

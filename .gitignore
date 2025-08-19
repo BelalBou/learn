@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+/dist/
+/apps/*/dist/
+/packages/*/dist/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env files
+.env
+.env.local
+apps/*/.env
+
+# Editor
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# TypeScript incremental
+*.tsbuildinfo
+
+# Coverage
+coverage/
+
+# Cache
+.cache/
+apps/web/.vite
+.vite/
+
+# Prisma
+prisma/*.db
+
+# Misc
+*.log
