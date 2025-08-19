@@ -13,13 +13,16 @@ export const Sidebar: React.FC = () => {
           <details open>
             <summary>{course.title}</summary>
             <ul>
-              {course.sections.flatMap(s => s.lessons).map(lesson => (
-                <li key={lesson.id}>
-                  <Link className={location.pathname === `/lesson/${lesson.id}` ? 'active' : ''} to={`/lesson/${lesson.id}`}>
-                    {lesson.title}
-                  </Link>
-                </li>
-              ))}
+              {course.sections.flatMap(s => s.lessons).map(lesson => {
+                const target = `/app/lesson/${lesson.id}`;
+                return (
+                  <li key={lesson.id}>
+                    <Link className={location.pathname === target ? 'active' : ''} to={target}>
+                      {lesson.title}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </details>
         </div>
