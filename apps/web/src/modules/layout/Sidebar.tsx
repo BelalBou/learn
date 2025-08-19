@@ -7,6 +7,7 @@ export const Sidebar: React.FC = () => {
   const location = useLocation();
   return (
     <aside className="sidebar" aria-label="Navigation des cours">
+  <div className="sidebar-header"><h2>Cursus</h2></div>
       {courses.map(course => (
         <div key={course.id} className="sidebar-course-group">
           <details open>
