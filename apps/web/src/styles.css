@@ -22,22 +22,22 @@
 }
 
 :root.theme-light {
-  /* Professional light with cool neutrals */
-  --color-bg: #f8fafc;            /* page */
-  --color-bg-alt: #ffffff;        /* cards */
-  --color-bg-alt2: #eef2f6;       /* secondary surface */
-  --color-border: #d3dce6;        /* border */
-  --color-border-strong: #b8c6d4;
-  --color-text: #112230;          /* main text */
-  --color-text-dim: #5b6b7c;      /* secondary */
-  --color-accent: #2563eb;        /* same accent ensures brand consistency */
-  --color-accent-alt: #1d4ed8;    /* darker variant */
+  /* Refined light palette */
+  --color-bg: #f5f7fb;             /* page */
+  --color-bg-alt: #ffffff;         /* cards */
+  --color-bg-alt2: #eef2f7;        /* secondary surface */
+  --color-border: #cfd9e5;         /* border */
+  --color-border-strong: #b2c2d3;  
+  --color-text: #142434;           /* main text */
+  --color-text-dim: #637487;       /* secondary */
+  --color-accent: #2563eb;         /* brand accent */
+  --color-accent-alt: #1d4ed8;
   --color-accent-glow: #3b82f6;
   --color-danger: #dc2626;
-  --gradient-accent: linear-gradient(140deg,#2563eb 0%,#3b82f6 60%,#60a5fa 100%);
-  --gradient-surface: linear-gradient(160deg,rgba(37,99,235,0.08) 0%,rgba(59,130,246,0.03) 60%,rgba(96,165,250,0.05) 100%);
-  --shadow-elev: 0 4px 18px -6px rgba(15,23,42,.18), 0 0 0 1px rgba(15,23,42,.06);
-  --glow-accent: 0 0 0 2px rgba(37,99,235,.28), 0 0 0 6px rgba(96,165,250,.22), 0 0 22px -4px rgba(59,130,246,.5);
+  --gradient-accent: linear-gradient(140deg,#1d4ed8 0%,#2563eb 55%,#3b82f6 85%,#60a5fa 100%);
+  --gradient-surface: linear-gradient(160deg,rgba(37,99,235,0.06) 0%,rgba(59,130,246,0.02) 55%,rgba(96,165,250,0.045) 100%);
+  --shadow-elev: 0 4px 18px -6px rgba(20,36,52,.16), 0 0 0 1px rgba(20,36,52,.06);
+  --glow-accent: 0 0 0 2px rgba(37,99,235,.24), 0 0 0 6px rgba(96,165,250,.18), 0 0 22px -4px rgba(59,130,246,.5);
   --sidebar-width: 280px;
   --font-sans: 'Inter',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',sans-serif;
   color-scheme: light;
@@ -45,6 +45,7 @@
 
 html { background: var(--color-bg); }
 body { margin:0; font-family: var(--font-sans); background: radial-gradient(circle at 18% 22%, rgba(59,130,246,.10), transparent 62%), radial-gradient(circle at 82% 78%, rgba(37,99,235,.12), transparent 70%), var(--color-bg); color: var(--color-text); }
+html, body { width:100%; overflow-x:hidden; }
 body, button, input { transition: background-color .35s, color .35s, border-color .35s; }
 
 .layout-root { display: flex; min-height: 100vh; }
@@ -74,11 +75,38 @@ button:active { transform:translateY(1px); }
 .muted { color:#94a3b8; font-size:.75rem; margin-top:1rem; }
 a { color: var(--color-accent); }
 @media (max-width: 800px) {
-  .sidebar { position:fixed; left:0; top:0; bottom:0; transform:translateX(-100%); transition:transform .3s; z-index:50; box-shadow: 0 0 0 1px var(--color-border), 0 10px 30px -5px rgba(0,0,0,.65); }
+  .sidebar { position:fixed; left:0; top:0; bottom:0; transform:translateX(-100%); transition:transform .32s cubic-bezier(.4,.14,.14,1); z-index:140; box-shadow: 0 0 0 1px var(--color-border), 0 10px 30px -5px rgba(0,0,0,.65); max-width:80%; }
   .sidebar.open { transform:translateX(0); }
   .layout-root { flex-direction: column; }
   .layout-main { padding-top:3.5rem; }
+  .desktop-only { display:none !important; }
+  .sidebar-handle { position:fixed; top:50%; left:0; transform:translate(-45%,-50%); background:linear-gradient(150deg,var(--color-bg-alt2) 0%, var(--color-bg-alt) 100%); border:1px solid var(--color-border-strong); width:44px; height:72px; border-radius:0 18px 18px 0; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:130; box-shadow:0 4px 18px -4px rgba(0,0,0,.55), 0 0 0 1px var(--color-border); color: var(--color-text); }
+  .sidebar-handle::after { content:""; position:absolute; left:0; top:12px; bottom:12px; width:4px; border-radius:0 3px 3px 0; background:var(--gradient-accent); filter:brightness(1.1); }
+  .sidebar-handle svg { transition:transform .5s cubic-bezier(.4,.14,.14,1); }
+  .sidebar-handle:hover { filter:brightness(1.08); }
+  .sidebar-handle:focus-visible { outline:2px solid var(--color-accent); outline-offset:2px; }
+  .sidebar-handle.hidden { display:none; }
+  .sidebar-close { position:absolute; top:.55rem; right:.65rem; background:rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.15); width:46px; height:46px; border-radius:50%; cursor:pointer; z-index:200; box-shadow:0 4px 16px -4px rgba(0,0,0,.55); backdrop-filter:blur(4px); }
+  :root.theme-light .sidebar-close { background:rgba(255,255,255,.85); border:1px solid rgba(0,0,0,.12); box-shadow:0 4px 14px -4px rgba(0,0,0,.18); }
+  .sidebar-close::before, .sidebar-close::after { content:""; position:absolute; left:50%; top:50%; width:26px; height:4px; background:#ff2b2b; border-radius:2px; transform-origin:center; box-shadow:0 0 6px -1px rgba(255,43,43,.55); }
+  .sidebar-close::before { transform:translate(-50%, -50%) rotate(45deg); }
+  .sidebar-close::after { transform:translate(-50%, -50%) rotate(-45deg); }
+  .sidebar-close:hover { background:rgba(0,0,0,.68); }
+  :root.theme-light .sidebar-close:hover { background:#fff; }
+  .sidebar-close:active { transform:scale(.9); }
+  .sidebar-close:focus-visible { outline:3px solid #fff; outline-offset:3px; }
+  .sidebar-close:active { transform:scale(.92); }
+  .sidebar-close:focus-visible { outline:2px solid #fff; outline-offset:2px; }
 }
+
+/* Overlay for mobile sidebar */
+.sidebar-overlay { position:fixed; inset:0; background:rgba(8,17,29,.58); backdrop-filter:blur(2px); opacity:0; pointer-events:none; transition:opacity .3s; z-index:120; }
+.sidebar-overlay.show { opacity:1; pointer-events:auto; }
+@media (min-width:801px){ .sidebar-overlay { display:none !important; } }
+
+.sidebar-toggle { box-shadow: var(--shadow-elev); }
+.sidebar-toggle:hover { filter:brightness(1.08); }
+.app-header { backdrop-filter: blur(8px); }
 
 /* Utility */
 .flex { display:flex; }
@@ -89,3 +117,6 @@ a { color: var(--color-accent); }
 /* Theme toggle button style */
 .theme-toggle { background: var(--color-bg-alt2); border:1px solid var(--color-border); color: var(--color-text); box-shadow: var(--shadow-elev); }
 .theme-toggle:hover { background: var(--color-bg-alt); }
+.mobile-only { display:none; }
+@media (max-width: 800px) { .mobile-only { display:inline-flex; } }
+@media (min-width: 801px) { .sidebar-handle { display:none !important; } }
